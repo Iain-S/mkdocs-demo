@@ -1,20 +1,12 @@
-# put-your-project-name-here
+# A docs site
 
-A template Python project
+A template mkdocs site
 
 ## Setup Instructions
 
-1. Fork this repository (by clicking this button in GitHub)
-
-    ![fork button](images/fork_small.png)
-
-1. Rename your fork of this repository (e.g. to "my-project")
-
-1. Clone your fork of this repository (e.g. `git clone https://github.com/your-username/my-project.git`) and `cd` into it
+### Without Docker
 
 1. Create a virtual environment with `virtualenv venv` and activate it with `source venv/bin/activate`
-
-1. Install the Python development requirements with `pip install -r dev-requirements.txt`
 
 1. Install the Python requirements with `pip install -r requirements.txt`
 
@@ -22,84 +14,24 @@ A template Python project
 
 1. [optional] If you want to lint Bash scripts, install [shellcheck](https://github.com/koalaman/shellcheck#installing)
 
+1. [optional] If you want to do spellchecking, install [hunspell](http://hunspell.github.io/)
+
 1. Check that all tests pass with `./run_tests.sh`
 
-1. Read through [hello.py](hello.py), [test_hello.py](tests/test_hello.py), [smp.sh](script.sh), and [run_tests.sh](run_tests.sh), which are all brief but contain important extra info
+### With Docker
 
-## Development Instructions
+1. Install Docker
 
-As you develop your project, you might want to follow one of these two workflows
+1. Build the image with `docker build -f Dockerfile .` and make a note of the image checksum
 
-### Test-Driven Developement (TDD)
+1. Run a container with `docker run -i -t --entrypoint=/bin/bash my-image-checksum`
 
-In test-driven development, you start by writing a failing test. Next, you make the test pass. Finally, you can refactor your code to improve the readability/speed/etc.
+1. [optional] To rerun the same container but with new code, you can use the --volume option `docker run -i -t -v $(pwd):/usr/src/code --entrypoint=/bin/bash my-image-checksum`
 
-1. Add a new test in test_hello.py, which should fail at the moment (e.g. remove the `@pytest.mark.skip` line in [test_hello.py](tests/test_hello.py))
+## Deployment
 
-    ```shell
-    $ ./run_tests.sh
-    ...
-    AttributeError: module 'hello' has no attribute 'new_function'
-    ...
-    === 1 failed, 2 passed in 0.09s ===
-    ```
+Once you are sure the checks are passing on the `main` branch, you can deploy to GitHub Pages with `mkdocs gh-deploy`
 
-1. Add/change code in hello.py so that the test will pass
+## ToDo
 
-1. Make sure all checks/tests in the project pass
-
-    ```shell
-    $ ./run_tests.sh
-    ...
-    === 3 passed in 0.09s ===
-    ```
-
-1. Add and commit your changes to Git with `git add .` followed by `git commit -m "my commit message"`
-
-1. Push your changes to GitHub with `git push`
-
-1. Run your experiment/analysis with `./script.sh`
-
-### Retrospective Testing
-
-As an alternative to TDD, you can write your code first and add your tests second. Below, we use a code coverage tool to see which parts of the codebase are not being tested.
-
-1. Work on your code (e.g. in hello.py)
-
-1. Run code coverage checks, to find lines that are not currently being tested
-
-    ```shell
-    $ ./run_tests.sh
-    ...
-    Name       Stmts   Miss  Cover   Missing
-    ----------------------------------------
-    hello.py      11      2    82%   10-11
-    ----------------------------------------
-    TOTAL         11      2    82%
-
-    ```
-
-1. Add a new test in [test_hello.py](tests/test_hello.py) to test your new work (e.g. remove the `@pytest.mark.skip` line in test_hello.py)
-
-1. Make sure all checks/tests in the project pass and test coverage is high enough
-
-    ```shell
-    $ ./run_tests.sh
-    ...
-    Name       Stmts   Miss  Cover   Missing
-    ----------------------------------------
-    hello.py      11      2    100%
-    ----------------------------------------
-    TOTAL         11      2    100%
-
-    ```
-
-1. Add and commit your changes to Git with `git add .` followed by `git commit -m "my commit message"`
-
-1. Push your changes to GitHub with `git push`
-
-1. Run your experiment/analysis with `script.sh`
-
-## Finally
-
-You can delete the [images/](images/) directory and all the text above, replacing it with information about your project.
+1. It doesn't make sense to install Python on the container unless we want to be able to run `mkdocs build/serve/gh-deply` from the container
