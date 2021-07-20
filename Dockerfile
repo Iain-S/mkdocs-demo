@@ -15,4 +15,4 @@ WORKDIR /proj
 RUN pip install -r requirements.txt
 
 # Run our tests
-#RUN /bin/bash run_tests.sh
+ENTRYPOINT ["./run_tests.sh"]
