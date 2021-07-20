@@ -35,3 +35,5 @@ Once you are sure the checks are passing on the `main` branch, you can deploy to
 ## ToDo
 
 1. It doesn't make sense to install Python on the container unless we want to be able to run `mkdocs build/serve/gh-deply` from the container
+
+1. We should be able to build the docs with `mkdocs build` and then deploy them with [this](https://github.com/marketplace/actions/deploy-to-github-pages) GitHub action
