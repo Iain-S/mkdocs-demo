@@ -1,3 +1,9 @@
+# MkDocs build artefacts
+site/
+
+# Vim temp fils
+*.swp
+
 # VSCode project files
 .vscode/
 

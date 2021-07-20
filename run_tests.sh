@@ -1,37 +1,9 @@
 #!/bin/bash
 #
-# Run all code style checks and Python unit tests
+# Run code-style and spelling checks
 
 # Keep track of the exit code of each test
 status=0
-
-# Activate our virtual environment
-# shellcheck disable=SC1091
-source venv/bin/activate
-
-# Check Python coding style with flake8, using black's default max line length
-# To auto-format a file, you can run `python -m black filename.py`
-echo "Running flake8..."
-python -m flake8 --max-line-length=88 --exclude=venv
-status=$((status+$?))
-
-# Find all .py files (ignoring venv) and check their code style with pylint,
-# using (something close to) Google's default config
-echo "Running pylint..."
-# shellcheck disable=SC2038
-find . -type f -name "*.py" ! -path "./venv/*" | xargs \
-    pylint --rcfile=tests/pylintrc
-status=$((status+$?))
-
-# Run our unit tests with code coverage
-echo "Running unit tests..."
-# shellcheck disable=SC2140
-python -m coverage run --omit="venv/*","tests/*" -m pytest tests/
-status=$((status+$?))
-
-# Show the lines our tests miss
-python -m coverage report --show-missing
-status=$((status+$?))
 
 # [optional] Check Markdown coding style with Ruby's markdown lint
 # https://github.com/markdownlint/markdownlint
@@ -54,6 +26,30 @@ else
   echo "Running shellcheck..."
   shellcheck ./*.sh
   status=$((status+$?))
+fi
+
+# [optional] Check spelling in .md files with hunspell
+if ! command -v hunspell &> /dev/null
+then
+  echo "Skipping hunspell..."
+else
+  echo "Running hunspell..."
+
+  # In case there are no sub-directories of docs/
+  # See also https://github.com/koalaman/shellcheck/wiki/SC2044
+  shopt -s globstar nullglob
+
+  # Spellcheck each file in docs/
+  for filename in docs/**/*.md
+  do
+    # If there is more than one spelling mistake...
+    if [ "$(hunspell -d en_GB -p project.dict -l "$filename" | wc -l)" -gt 0 ]
+    then
+      # ...increment the error counter and show the misspelt words
+      status=$((status+1))
+      hunspell -d en_GB -p project.dict -l "$filename"
+    fi
+  done
 fi
 
 echo ""
