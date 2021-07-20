@@ -13,7 +13,7 @@ then
 else
   echo "Running markdown lint..."
   # With --git-recurse, mdl only checks version controlled files
-  mdl --git-recurse --style tests/mdl_style.rb ./
+  mdl --git-recurse --style mdl_style.rb ./
   status=$((status+$?))
 fi
 
@@ -52,7 +52,11 @@ else
   done
 fi
 
+# See https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
+time=$(date)
+echo "::set-output name=time::$time"
 echo ""
+
 if [ $status -eq 0 ]
 then
   echo "All tests passed"
@@ -61,3 +65,4 @@ else
   echo "Not all tests passed" >&2
   exit 1
 fi
+
