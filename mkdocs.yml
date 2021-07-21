@@ -1,6 +1,8 @@
 site_name: My Demo Docs
 site_url:
-theme: readthedocs
+theme:
+  name: null
+  custom_dir: 'cinder1.2.0'
 nav:
   - Home: index.md
   - About: about.md
