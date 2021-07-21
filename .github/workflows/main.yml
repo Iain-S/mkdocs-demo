@@ -1,17 +1,20 @@
 on:
+  # Also triggered by merge into main
   push:
     branches:
       - main
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Deploy to gh-pages branch
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Hello world action step
-        id: hello
-        uses: ./
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m mkdocs gh-deploy
