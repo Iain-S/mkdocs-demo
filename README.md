@@ -30,10 +30,8 @@ A template mkdocs site
 
 ## Deployment
 
-Once you are sure the checks are passing on the `main` branch, you can deploy to GitHub Pages with `mkdocs gh-deploy`
+Once you are sure the checks are passing on your branch, you can open a PR and merge into `main`. `main` will be deployed automatically by our [workflow](.github/workflows/main.yml).
 
 ## ToDo
 
-1. It doesn't make sense to install Python on the container unless we want to be able to run `mkdocs build/serve/gh-deply` from the container
-
-1. We should be able to build the docs with `mkdocs build` and then deploy them with [this](https://github.com/marketplace/actions/deploy-to-github-pages) GitHub action
+1. Should we run `mkdocs gh-deploy` from within our container rather than the default ubuntu-latest? That way, we know the test and deployment Python versions will be the same.
