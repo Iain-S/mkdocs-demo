@@ -26,7 +26,7 @@ A template mkdocs site
 
 1. Run a container with `docker run -i -t --entrypoint=/bin/bash my-image-checksum`
 
-1. [optional] To rerun the same container but with new code, you can use the --volume option `docker run -i -t -v $(pwd):/usr/src/code --entrypoint=/bin/bash my-image-checksum`
+1. [optional] To rerun the same container but with new code, you can mount the code to e.g. `/usr/src/code` with the `--volume` option `docker run -i -t --volume $(pwd):/usr/src/code --entrypoint=/bin/bash my-image-checksum`
 
 ## Deployment
 
