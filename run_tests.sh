@@ -52,6 +52,10 @@ else
   done
 fi
 
+# Check that mkdocs can build the site
+mkdocs build --strict
+status=$((status+$?))
+
 # See https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action
 time=$(date)
 echo "::set-output name=time::$time"
