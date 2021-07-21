@@ -6,3 +6,8 @@ theme:
 nav:
   - Home: index.md
   - About: about.md
+plugins:
+  - search:
+      lang: 'en'
+      min_search_length: 3
+      indexing: 'full'
