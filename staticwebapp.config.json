@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "route": "/about/",
+      "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "/login",
+      "rewrite": "/.auth/login/aad"
+    },
+  ]
+}
