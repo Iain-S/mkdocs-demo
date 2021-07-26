@@ -1,15 +1,11 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  linting_and_things:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: A job to check some things
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Hello world action step
-        id: hello
+      - name: Run tests (see Dockerfile)
         uses: ./
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
